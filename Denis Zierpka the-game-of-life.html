@@ -1,0 +1,146 @@
+<html>
+	<head>
+		
+	</head>
+	<body id="my_body">
+		<script>
+			const num_rows = 20;
+			const num_colums = 20;
+			const sz_edge = 30;
+			const width_button = 200;
+			const height_button = 50;
+		
+			let body = document.getElementById("my_body");
+			
+			let button = document.createElement("button");
+			button.setAttribute("id", "button_start");
+			button.style.backgroundColor = "green";
+			button.style.width = width_button + "px";
+			button.style.height = height_button + "px";
+			body.appendChild(button);
+			
+			
+			
+			let test = document.getElementById("button_start");
+			test.innerHTML = "Start";
+			
+			let table = document.createElement("table");
+			body.appendChild(table);
+			
+			
+			let array_tr_new = new Array(num_rows);
+
+			
+			for (let i = 0; i < num_rows; ++i) {
+				for (let j = 0; j < num_colums; ++j) {
+					let new_row = new Array(num_colums);
+					new_row.fill(false);
+					array_tr_new[i] = new_row;
+				}
+			}			
+			
+					
+			
+			function makeCell(i, j) {
+				let td = document.createElement("td");
+				td.onclick = (event) => {
+					if (td.style.backgroundColor == "black") {
+						td.style.backgroundColor = "white";
+						array_tr_new[i][j] = 1;
+					} else {
+						td.style.backgroundColor = "black";
+						array_tr_new[i][j] = 0;
+					}
+				};
+				td.setAttribute("id", i + "_" + j);
+				td.style.backgroundColor = "black";
+				td.style.width = sz_edge + "px";
+				td.style.height = sz_edge + "px";
+				return td;
+			}
+			
+			let array_tr = new Array(num_rows);
+			
+			
+			for (let i = 0; i < num_rows; ++i) {
+				array_tr[i] = document.createElement("tr");
+				for (let j = 0; j < num_colums; ++j) {
+					array_tr[i].appendChild(makeCell(i, j));
+				}
+				table.appendChild(array_tr[i]);
+			}
+			
+			
+			let array_d = new Array(-1, -1, -1, 0, 0, 1, 1, 1);
+			let array_d2 = new Array(-1, 0, 1, -1, 1, -1, 0, 1);
+			
+			
+			function Update() {
+				for (let i = 0; i < num_rows; ++i) {
+					for (let j = 0; j < num_colums; ++j) {
+						let td = document.getElementById(i + "_" + j);
+						if (td.style.backgroundColor == "black") {
+							let cnt = 0;
+							for (let r = 0; r < 8; r++) {
+								let new_i = (i + array_d[r] + num_rows) % num_rows;
+								let new_j = (j + array_d2[r] + num_colums) % num_colums;
+								let prov = document.getElementById(new_i + "_" + new_j);
+								if (prov.style.backgroundColor == "white")
+									cnt++;
+							}
+							if (cnt == 3) {
+								array_tr_new[i][j] = 1;
+							} else {
+								array_tr_new[i][j] = 0;
+							}
+						} else {
+							let cnt = 0;
+							for (let r = 0; r < 8; r++) {
+								let new_i = (i + array_d[r] + num_rows) % num_rows;
+								let new_j = (j + array_d2[r] + num_colums) % num_colums;
+								
+								let prov = document.getElementById(new_i + "_" + new_j);
+								if (prov.style.backgroundColor == "white")
+									cnt++;
+							}
+							if (cnt < 2 || cnt > 3) {
+								array_tr_new[i][j] = 0;
+							} else {
+								array_tr_new[i][j] = 1;
+							}
+						}
+					}
+				}
+				
+				for (let i = 0; i < num_rows; ++i) {
+					for (let j = 0; j < num_colums; ++j) {
+						let td = document.getElementById(i + "_" + j);
+						if (array_tr_new[i][j] == 0)
+							td.style.backgroundColor = "black";
+						else
+							td.style.backgroundColor = "white";
+					}
+				}
+				
+			}
+			
+			let tap = document.getElementById("button_start");
+			let fl = 0;
+			tap.onclick = (event) => {
+				if (fl == 0) {
+					setInterval(Update, 100);	
+					fl = 1;
+				} else {
+					setTimeout(200000);
+				}
+			};
+			
+			
+			
+		</script>
+		
+	</body>
+
+
+
+</html>
