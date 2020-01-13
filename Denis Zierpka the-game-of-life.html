@@ -1,6 +1,7 @@
 <html>
 	<head>
-		
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
 	</head>
 	<body id="my_body">
 		<script>
@@ -19,17 +20,13 @@
 			button.style.height = height_button + "px";
 			body.appendChild(button);
 			
-			
-			
 			let test = document.getElementById("button_start");
 			test.innerHTML = "Start";
 			
 			let table = document.createElement("table");
 			body.appendChild(table);
 			
-			
 			let array_tr_new = new Array(num_rows);
-
 			
 			for (let i = 0; i < num_rows; ++i) {
 				for (let j = 0; j < num_colums; ++j) {
@@ -38,8 +35,6 @@
 					array_tr_new[i] = new_row;
 				}
 			}			
-			
-					
 			
 			function makeCell(i, j) {
 				let td = document.createElement("td");
@@ -134,13 +129,6 @@
 					setTimeout(200000);
 				}
 			};
-			
-			
-			
 		</script>
-		
 	</body>
-
-
-
 </html>
